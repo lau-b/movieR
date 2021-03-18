@@ -2,21 +2,25 @@
 
 
 {% block content %}
-    <p>//here you can see the top ten movies of all time</p>
+    <h2>25 top rated movies until end of 2019</h2>
+    <p>//here you can see the top ten movies of all time.</p>
+    <p>surprisingly tv shows are also incuded</p>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Genres</th>
+                <th>title</th>
+                <th>rating</th>
+                <th>published in</th>
+                <th># of ratings</th>
             </tr>
         </thead>
         <tbody>
             {% for movie in result %}
             <tr>
-                <td>{{ movie.id }}</td>
                 <td>{{ movie.title }}</td>
-                <td>{{ movie.genres }}</td>
+                <td>{{ movie.avg_rating }}</td>
+                <td>{{ movie.published }}</td>
+                <td>{{ movie.number_of_ratings }}</td>
             </tr>
             {% endfor %}
         </tbody>

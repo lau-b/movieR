@@ -15,25 +15,26 @@
             <nav>
                 <div class="row">
                     <div class="column">
-                        <a href="{{ url_for('index') }}">index</a>
-                    </div>
-                    <div class="column">
-                        <a href="{{ url_for('top_movies') }}">top movies</a>
-                    </div>
-                    <div class="column">
-                        <a href="{{ url_for('rate_movies') }}">rate movies</a>
-                    </div>
-                    <div class="column">
-                        <a href="">recommendation</a>
-                    </div>
-                </div>
-            </nav>
-            <div class="content">
-                <div class="row">
-                    <div class="column">
                         <h1>movieR</h1>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="column">
+                        <a class="button button-clear" href="{{ url_for('index') }}">index</a>
+                    </div>
+                    <div class="column">
+                        <a class="button button-clear" href="{{ url_for('top_movies') }}">25 top movies</a>
+                    </div>
+                    <div class="column">
+                        <a class="button button-clear" href="{{ url_for('rate_movies') }}">rate movies</a>
+                    </div>
+                    <div class="column">
+                        <a class="button button-clear" href="">recommendations</a>
+                    </div>
+                </div>
+            </nav>
+            <hr>
+            <div class="content">
                 {% block content %}
                 {% endblock %}
             </div>
