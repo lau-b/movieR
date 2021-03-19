@@ -5,24 +5,12 @@
         <div class="column">
             <form>
                 <fieldset>
-                    <input type="text" name="search_field" placeholder="search me ...">
+                    <!-- make row and columns -->
+                    <input id="movie_autocomplete" type="text" name="search_field" placeholder="search me ...">
                 </fieldset>
                 <input class="button button-outline" type="submit" value="send">
             </form>
         </div>
     </div>
     <hr>
-    <div class="row">
-        <h1>search 2</h1>
-        <form action="" method="post" novalidate="">
-            {{ form.hidden_tag () }}
-            <p>
-                {{ form.movie_title.label }}<br>
-                {{ form.movie_title(size=40) }}
-            </p>
-            <p>
-                {{ form.submit() }}
-            </p>
-        </form>
-    </div>
 {% endblock %}

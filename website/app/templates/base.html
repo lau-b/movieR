@@ -7,7 +7,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
         <!-- Milligram CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         <!-- You should properly set the path from the main file. -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
@@ -39,5 +42,14 @@
                 {% endblock %}
             </div>
         </div>
+        <script>
+        $(document).ready(function () {
+            $('#movie_autocomplete').autocomplete({
+                delay : 0,
+                source: '{{ url_for("autocomplete")}}',
+                minLength : 1
+            });
+        });
+        </script>
     </body>
 </html>
