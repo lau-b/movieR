@@ -38,7 +38,7 @@ def rate_movies():
 
 
 @app.route('/recommendations')
-def recommendations()
+def recommendations():
     return render_template('recommendations.html')
 
 # this is just backend and not used in frontend
@@ -50,5 +50,5 @@ def autocomplete():
         for movie in g.lookup:
             g.movie_list.append(movie.title)
 
-    matches = process.extractBests(request.args['term'],g.movie_list,limit=3)
+    matches = process.extractBests(request.args['term'], g.movie_list, limit=3)
     return jsonify([match[0] for match in matches])

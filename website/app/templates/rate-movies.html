@@ -1,16 +1,14 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <div class="row">
-        <div class="column">
-            <form>
-                <fieldset>
-                    <!-- make row and columns -->
-                    <input id="movie_autocomplete" type="text" name="search_field" placeholder="search me ...">
-                </fieldset>
+    <form>
+        <div class="row">
+            <div class="column column-80">
+                <input id="movie_autocomplete" type="text" name="search_field" placeholder="search me ...">
+            </div>
+            <div class="column">
                 <input class="button button-outline" type="submit" value="send">
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
     <hr>
 {% endblock %}
