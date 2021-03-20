@@ -12,10 +12,6 @@ app.config.from_object(Config)
 db.init_app(app)
 migrate = Migrate(app, db)
 
-
-from .forms import SearchForm
-
-
 @app.route('/')
 def index():
     # add this to the session
@@ -33,8 +29,7 @@ def top_movies():
 
 @app.route('/rate-movies')
 def rate_movies():
-    form = SearchForm()
-    return render_template('rate-movies.html', form=form)
+    return render_template('rate-movies.html')
 
 
 @app.route('/recommendations')
