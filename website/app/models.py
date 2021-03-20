@@ -13,7 +13,8 @@ class Movies(db.Model):
     avg_rating = db.Column(db.Float)
     number_of_ratings = db.Column(db.Integer)
 
-    def __init__(self, title, published, is_rated, avg_rating, number_of_ratings):
+    def __init__(self, id, title, published, is_rated, avg_rating, number_of_ratings):
+        self.id = id
         self.title = title
         self.published = published
         self.is_rated = is_rated
@@ -21,4 +22,4 @@ class Movies(db.Model):
         self.number_of_ratings = number_of_ratings
 
     def __repr__(self):
-        return f'{self.title}:{self.avg_rating}'
+        return f'{self.id}:{self.title}:{self.published}:{self.avg_rating}'

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, jsonify, g
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sqlalchemy import func
 from .models import db, Movies
 from fuzzywuzzy import process
 
@@ -29,7 +30,14 @@ def top_movies():
 
 @app.route('/rate-movies')
 def rate_movies():
-    return render_template('rate-movies.html')
+    results_list = []
+    if len(request.args) != 0:
+        search_title = str.lower(f"%{request.args['search_field']}%")
+        search_results = Movies.query.filter(Movies.title.ilike(search_title)).order_by(Movies.published.asc()).all()
+        for movie in search_results:
+            results_list.append([movie.id, movie.title, movie.published])
+
+    return render_template('rate-movies.html', results=results_list)
 
 
 @app.route('/recommendations')

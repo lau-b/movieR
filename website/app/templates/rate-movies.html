@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form>
+    <form action="/rate-movies">
         <div class="row">
             <div class="column column-80">
                 <input id="movie_autocomplete" type="text" name="search_field" placeholder="search me ...">
@@ -10,5 +10,30 @@
             </div>
         </div>
     </form>
-    <hr>
+    {% if results|length > 0 %}
+        <div class="container">
+            <h2>here are your seach results</h2>
+            <p>feel free to rate them</p>
+            <table>
+                <thead>
+                    <th>title</th>
+                    <th>your rating</th>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                        <tr>
+                            <td><b>{{ result[1] }}</b> from <i>{{ result[2] }}</i></td>
+                            <td>
+                                <button class="button button-small button-outline">1</button>
+                                <button class="button button-small button-outline">2</button>
+                                <button class="button button-small button-outline">3</button>
+                                <button class="button button-small button-outline">4</button>
+                                <button class="button button-small button-outline">5</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}
