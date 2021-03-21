@@ -13,6 +13,8 @@ app.config.from_object(Config)
 db.init_app(app)
 migrate = Migrate(app, db)
 
+user_ratings_dict = {}
+
 @app.route('/')
 def index():
     # add this to the session
@@ -47,16 +49,23 @@ def recommendations():
 # this is just backend and not used in frontend
 @app.route('/search_autocomplete')
 def autocomplete():
+    print(g)  # TODO: Malte => g seems to be destroyed after every request
     if 'lookup' not in g:
         g.movie_list = []
+        print(g)
         g.lookup = Movies.query.filter(Movies.number_of_ratings > 50).all()
         for movie in g.lookup:
             g.movie_list.append(movie.title)
 
     matches = process.extractBests(request.args['term'], g.movie_list, limit=3)
+    print(g, matches)
     return jsonify([match[0] for match in matches])
 
 @app.route('/save_rating')
 def save_rating():
-    print(request.args)
-    return '', 204
+    keys = request.args.keys()
+    for key in keys:
+        user_ratings_dict[key] = request.args.__getitem__(key)
+        print(user_ratings_dict)
+
+    return '', 204  # returning '' and 204 prevents site from reloading
