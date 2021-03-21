@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, jsonify, g
+from flask import Flask, render_template, request, url_for, jsonify, g, session
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -65,7 +65,7 @@ def autocomplete():
 def save_rating():
     keys = request.args.keys()
     for key in keys:
-        user_ratings_dict[key] = request.args.__getitem__(key)
-        print(user_ratings_dict)
+        session[f'rating_{key}'] = ([key, request.args.__getitem__(key)])
+        print(session)
 
     return '', 204  # returning '' and 204 prevents site from reloading

@@ -2,5 +2,9 @@
 
 {% block content %}
     <h1>Hallo</h1>
-
+    <ul>
+    {% for element in session %}
+        <li>{{session[element][0]}}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}
