@@ -10,30 +10,57 @@
             </div>
         </div>
     </form>
-    {% if results|length > 0 %}
-        <div class="container">
-            <h2>displaying {{ results|length }} search results</h2>
-            <p>feel free to rate them</p>
-            <table>
-                <thead>
-                    <th>title</th>
-                    <th>your rating</th>
-                </thead>
-                <tbody>
-                    {% for result in results %}
-                        <tr>
-                            <td><b>{{ result[1] }}</b> from <i>{{ result[2] }}</i></td>
+<blockquote><small>if there should be an empty site after your search, then it means there we no results in the database. I haven't implemented a routine for that yet.</small></blockquote>
+{% if results|length > 0 %}
+    <div class="container">
+        <h2>displaying {{ results|length }} search results for: <em>{{ request.args['search_field'] }}</em></h2>
+        <p>feel free to rate them</p>
+        <table>
+            <thead>
+                <th>title</th>
+                <th>your rating</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        <form action="{{ url_for('save_rating') }}">
                             <td>
-                                <button class="button button-small button-outline">1</button>
-                                <button class="button button-small button-outline">2</button>
-                                <button class="button button-small button-outline">3</button>
-                                <button class="button button-small button-outline">4</button>
-                                <button class="button button-small button-outline">5</button>
+                                <div class="hidden">{{ result[0] }}</div>
+                                <b>{{ result[1] }}</b> from <em>{{ result[2] }}</em>
                             </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
+                            <td>
+                                <div class="row">
+                                    <div class="column">
+                                        <label for="rating_1">1</label>
+                                        <input type="radio" id="rating_1" name="{{ result[0] }}" value="1">
+                                    </div>
+                                    <div class="column">
+                                        <label for="rating_2">2</label>
+                                        <input type="radio" id="rating_2" name="{{ result[0] }}" value="2">
+                                    </div>
+                                    <div class="column">
+                                        <label for="rating_3">3</label>
+                                        <input type="radio" id="rating_3" name="{{ result[0] }}" value="3">
+                                    </div>
+                                    <div class="column">
+                                        <label for="rating_4">4</label>
+                                        <input type="radio" id="rating_4" name="{{ result[0] }}" value="4">
+                                    </div>
+                                    <div class="column">
+                                        <label for="rating_5">5</label>
+                                        <input type="radio" id="rating_5" name="{{ result[0] }}" value="5">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="submit" value="submit rating">
+                            </td>
+                        </form>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
 {% endblock %}

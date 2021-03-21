@@ -55,3 +55,8 @@ def autocomplete():
 
     matches = process.extractBests(request.args['term'], g.movie_list, limit=3)
     return jsonify([match[0] for match in matches])
+
+@app.route('/save_rating')
+def save_rating():
+    print(request.args)
+    return '', 204
