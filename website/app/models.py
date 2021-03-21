@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 
 class Movies(db.Model):
-    __tablename__ = 'movies_rating'
+    __tablename__ = 'small_movies_rating'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)

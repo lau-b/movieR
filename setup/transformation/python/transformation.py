@@ -7,7 +7,7 @@ def get_project_root():
     return Path(__file__).parent.parent.parent.parent
 
 processed_dir = f'{get_project_root()}/data/processed/'
-raw_dir = f'{get_project_root()}/data/raw/'
+raw_dir = f'{get_project_root()}/data/raw/ml-latest-small/'
 
 
 ## creates a user_movie_matrix based on the ratings
@@ -18,7 +18,7 @@ user_movie_matrix = df_ratings.pivot(
     columns='userId',
     values='rating'
 )
-user_movie_matrix.to_csv(f'{processed_dir}/user_movie_matrix.csv')
+user_movie_matrix.to_csv(f'{processed_dir}/user_movie_matrix_new.csv')
 
 df_movies = pd.read_csv(f'{raw_dir}/movies.csv', index_col=0)
 df_movies = df_movies.drop(['genres'], axis=1)
@@ -30,8 +30,8 @@ movies_for_dummy_rec.to_csv(f'{processed_dir}/rec_list.csv')
 
 
 
-test_rec = movies_for_dummy_rec[-3:].index
-print(df_movies.loc[test_rec])  # Malte fragen
+# test_rec = movies_for_dummy_rec[-3:].index
+# print(df_movies.loc[test_rec])  # Malte fragen
 
 
 
