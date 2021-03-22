@@ -10,7 +10,24 @@
         </div>
     </div>
     <div>
-        {{ recs }}
+        {# {% if recs not None %} #}
+            <table>
+                <thead>
+                    <th>rank</th>
+                    <th>movie</th>
+                    <th>average rating</th>
+                </thead>
+            <tbody>
+            {% for rec in recs %}
+                <tr>
+                    <td>Number</td>
+                    <td>{{rec.title}} ({{rec.published}})</td>
+                    <td>{{rec.avg_rating}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        {# {% endif %} #}
     </div>
 
 {% endblock %}
