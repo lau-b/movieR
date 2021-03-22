@@ -6,6 +6,9 @@ from sqlalchemy import func
 from .models import db, Movies
 from fuzzywuzzy import process
 import numpy as np
+import pickle
+import os
+import pandas as pd
 
 
 app = Flask(__name__)
@@ -45,11 +48,19 @@ def rate_movies():
 
 @app.route('/recommendations')
 def recommendations():
-    # import pickle
-    # if 'nfm' not in session:
-    #     with open('nfm.pickle', 'rb') as file:
-    #         session['nmf'] = pickle.load(file)
-    movies = Movies.query
+
+
+    # TODO: find a way to speed this up.
+    ## maybe its fine to to this whole thing when clicking on 'get recs'
+
+    return render_template('recommendations.html')
+
+@app.route('/get_recs')
+def get_recommendations():
+    with open('app/nmf.pickle', 'rb') as file:
+        nmf = pickle.load(file)
+
+    movies = Movies.query.filter(Movies.is_rated == True)
     movie_dict = {}
     for movie in movies:
         movie_dict[movie.id] = 3.5
@@ -60,23 +71,29 @@ def recommendations():
         movie_id = int(session[element][0])
         rating = float(session[element][1])
         movie_dict[movie_id] = rating
-    # TODO: find a way to speed this up.
-    ## maybe its fine to to this whole thing when clicking on 'get recs'
 
-    return render_template('recommendations.html', movie_dict=movie_dict)
-
-@app.route('/get_recs')
-def get_recommendations():
-    # load nmf
     # prepare movie_dict
+    rating_df = pd.DataFrame(list(movie_dict.values()), index=movie_dict.keys())
+    rating_df = rating_df.transpose()
+
     # get predictions
+    P = nmf.transform(rating_df)
+    predictions = np.dot(P, nmf.components_)
+    recommendations = pd.DataFrame(predictions, columns=movie_dict.keys())
+    recommendations = recommendations.T
+    recommendations.columns = ['predicted_rating']
+    recs = recommendations.sort_values(by='predicted_rating', ascending=False)[:5]
+    rec_movies = Movies.query.filter(Movies.id.in_(recs.index)).all()
+
     # save them somewhere or return them.
-    return '', 204
+
+
+    return render_template('recommendations.html', recs=rec_movies)
 
 # this is just backend and not used in frontend
 @app.route('/search_autocomplete')
 def autocomplete():
-    print(g)  # TODO: Malte => g seems to be destroyed after every request
+    # print(g)  # TODO: Malte => g seems to be destroyed after every request
     if 'lookup' not in g:
         g.movie_list = []
         print(g)
@@ -85,7 +102,7 @@ def autocomplete():
             g.movie_list.append(movie.title)
 
     matches = process.extractBests(request.args['term'], g.movie_list, limit=3)
-    print(g, matches)
+    # print(g, matches)
     return jsonify([match[0] for match in matches])
 
 @app.route('/save_rating')

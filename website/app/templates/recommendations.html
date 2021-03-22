@@ -4,10 +4,13 @@
     <p>the following 5 recommendations are based on your ratings you did before. the underlying algorithm is a non-negative matrix factorization model.</p>
 
     <div class="row">
-            <form action="">
+            <form action="/get_recs">
                 <input type="submit" name="get_recs" id="get_recs" value="get your recommendations" >
             </form>
         </div>
+    </div>
+    <div>
+        {{ recs }}
     </div>
 
 {% endblock %}
