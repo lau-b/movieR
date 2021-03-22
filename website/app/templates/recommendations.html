@@ -19,27 +19,22 @@
             </form>
         </div>
     </div>
-</div>
-<div>
-    {% if recs %}
-        <table>
-            <thead>
-                <th>rank</th>
-                <th>movie</th>
-                <th>your ranking</th>
-                <th>average user rating</th>
-            </thead>
-            <tbody>
-                {% for rec in recs %}
-                    <tr>
-                        <td>{{i}}</td>
-                        <td>{{rec.title}} ({{rec.published}})</td>
-                        <td>not there yet</td>
-                        <td>{{rec.avg_rating}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-</div>
+    <div>
+        {% if recs %}
+            <table>
+                <thead>
+                    <th>movie</th>
+                    <th>average user rating</th>
+                </thead>
+                <tbody>
+                    {% for rec in recs %}
+                        <tr>
+                            <td>{{rec.title}} ({{rec.published}})</td>
+                            <td>{{rec.avg_rating}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
 {% endblock %}

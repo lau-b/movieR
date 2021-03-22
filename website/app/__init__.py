@@ -21,10 +21,6 @@ user_ratings_dict = {}
 
 @app.route('/')
 def index():
-    # add this to the session
-    # also
-    # load movies once and store
-     # find out how to select title and id onlu
     return render_template('index.html')
 
 
@@ -61,7 +57,7 @@ def get_recommendations():
     movies = Movies.query.filter(Movies.is_rated == True)
     movie_dict = {}
     for movie in movies:
-        movie_dict[movie.id] = 2.0
+        movie_dict[movie.id] = 3.0
         # TODO: was ist wenn ich hier den average je movie einsetze?
         ## Könnte das direkt mit der Query holen.
 
@@ -83,25 +79,18 @@ def get_recommendations():
     recs = recommendations.sort_values(by='predicted_rating', ascending=False)[:5]
     rec_movies = Movies.query.filter(Movies.id.in_(recs.index)).all()
 
-    print(rec_movies, recommendations)
-    # save them somewhere or return them.
-
-
-    return render_template('recommendations.html', recs=rec_movies)
+    return render_template('recommendations.html', recs=rec_movies, preds=recommendations)
 
 # this is just backend and not used in frontend
 @app.route('/search_autocomplete')
 def autocomplete():
-    print(g)  # TODO: Malte => g seems to be destroyed after every request
     if 'lookup' not in g:
         g.movie_list = []
-        print(g)
         g.lookup = Movies.query.filter(Movies.number_of_ratings > 50).all()
         for movie in g.lookup:
             g.movie_list.append(movie.title)
 
     matches = process.extractBests(request.args['term'], g.movie_list, limit=3)
-    print(g, matches)
     return jsonify([match[0] for match in matches])
 
 @app.route('/save_rating')
@@ -109,6 +98,5 @@ def save_rating():
     keys = request.args.keys()
     for key in keys:
         session[f'rating_{key}'] = ([key, request.args.__getitem__(key)])
-        print(session)
 
     return '', 204  # returning '' and 204 prevents site from reloading
