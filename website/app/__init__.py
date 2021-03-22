@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from sqlalchemy import func
 from .models import db, Movies
 from fuzzywuzzy import process
+import numpy as np
 
 
 app = Flask(__name__)
@@ -44,7 +45,33 @@ def rate_movies():
 
 @app.route('/recommendations')
 def recommendations():
-    return render_template('recommendations.html')
+    # import pickle
+    # if 'nfm' not in session:
+    #     with open('nfm.pickle', 'rb') as file:
+    #         session['nmf'] = pickle.load(file)
+    movies = Movies.query
+    movie_dict = {}
+    for movie in movies:
+        movie_dict[movie.id] = 3.5
+        # TODO: was ist wenn ich hier den average je movie einsetze?
+        ## Könnte das direkt mit der Query holen.
+
+    for element in session:
+        movie_id = int(session[element][0])
+        rating = float(session[element][1])
+        movie_dict[movie_id] = rating
+    # TODO: find a way to speed this up.
+    ## maybe its fine to to this whole thing when clicking on 'get recs'
+
+    return render_template('recommendations.html', movie_dict=movie_dict)
+
+@app.route('/get_recs')
+def get_recommendations():
+    # load nmf
+    # prepare movie_dict
+    # get predictions
+    # save them somewhere or return them.
+    return '', 204
 
 # this is just backend and not used in frontend
 @app.route('/search_autocomplete')

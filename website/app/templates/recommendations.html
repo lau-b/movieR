@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <h1>Hallo</h1>
-    <ul>
-    {% for element in session %}
-        <li>{{session[element][0]}}</li>
-    {% endfor %}
-    </ul>
+    <h1>your recommendations</h1>
+    <p>the following 5 recommendations are based on your ratings you did before. the underlying algorithm is a non-negative matrix factorization model.</p>
+
+    <div class="row">
+            <form action="">
+                <input type="submit" name="get_recs" id="get_recs" value="get your recommendations" >
+            </form>
+        </div>
+    </div>
+
 {% endblock %}
