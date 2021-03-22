@@ -1,33 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>your recommendations</h1>
-    <p>the following 5 recommendations are based on your ratings you did before. the underlying algorithm is a non-negative matrix factorization model.</p>
-
+    <p>the following 5 recommendations are based on your ratings you did before. <br> the underlying algorithm is a non-negative matrix factorization model. at least its the only one that gives you results right now.</p>
     <div class="row">
+        <div class="column">
             <form action="/get_recs">
-                <input type="submit" name="get_recs" id="get_recs" value="get your recommendations" >
+                <input type="submit" name="get_recs" id="get_recs" value="get your nmf recommendations" >
+            </form>
+        </div>
+        <div class="column">
+            <form action="">
+                <input type="submit" name="get_recs" id="get_pca_recs" value="get your pca recommendations" >
+            </form>
+        </div>
+        <div class="column">
+            <form action="">
+                <input type="submit" name="get_recs" id="get_clustering_recs" value="get recommendations form people like you" >
             </form>
         </div>
     </div>
-    <div>
-        {# {% if recs not None %} #}
-            <table>
-                <thead>
-                    <th>rank</th>
-                    <th>movie</th>
-                    <th>average rating</th>
-                </thead>
+</div>
+<div>
+    {% if recs %}
+        <table>
+            <thead>
+                <th>rank</th>
+                <th>movie</th>
+                <th>your ranking</th>
+                <th>average user rating</th>
+            </thead>
             <tbody>
-            {% for rec in recs %}
-                <tr>
-                    <td>Number</td>
-                    <td>{{rec.title}} ({{rec.published}})</td>
-                    <td>{{rec.avg_rating}}</td>
-                </tr>
-            {% endfor %}
+                {% for rec in recs %}
+                    <tr>
+                        <td>{{i}}</td>
+                        <td>{{rec.title}} ({{rec.published}})</td>
+                        <td>not there yet</td>
+                        <td>{{rec.avg_rating}}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
-            </table>
-        {# {% endif %} #}
-    </div>
-
+        </table>
+    {% endif %}
+</div>
 {% endblock %}

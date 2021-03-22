@@ -23,3 +23,8 @@ class Movies(db.Model):
 
     def __repr__(self):
         return f'{self.id}:{self.title}:{self.published}:{self.avg_rating}'
+
+
+    # TODO: helper function oder außerhalb des moduls
+    # def get_best_rated_moves(number):
+    #     return

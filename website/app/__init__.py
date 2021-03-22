@@ -48,22 +48,20 @@ def rate_movies():
 
 @app.route('/recommendations')
 def recommendations():
-
-
-    # TODO: find a way to speed this up.
-    ## maybe its fine to to this whole thing when clicking on 'get recs'
-
     return render_template('recommendations.html')
 
 @app.route('/get_recs')
 def get_recommendations():
+    # Datenbank und recommender besser trennen
+    # idealerweise in interface laden und als konstante importieren
+    # recommender.py extrahieren und dann hier benutzen
     with open('app/nmf.pickle', 'rb') as file:
         nmf = pickle.load(file)
 
     movies = Movies.query.filter(Movies.is_rated == True)
     movie_dict = {}
     for movie in movies:
-        movie_dict[movie.id] = 3.5
+        movie_dict[movie.id] = 2.0
         # TODO: was ist wenn ich hier den average je movie einsetze?
         ## Könnte das direkt mit der Query holen.
 
@@ -85,6 +83,7 @@ def get_recommendations():
     recs = recommendations.sort_values(by='predicted_rating', ascending=False)[:5]
     rec_movies = Movies.query.filter(Movies.id.in_(recs.index)).all()
 
+    print(rec_movies, recommendations)
     # save them somewhere or return them.
 
 
@@ -93,7 +92,7 @@ def get_recommendations():
 # this is just backend and not used in frontend
 @app.route('/search_autocomplete')
 def autocomplete():
-    # print(g)  # TODO: Malte => g seems to be destroyed after every request
+    print(g)  # TODO: Malte => g seems to be destroyed after every request
     if 'lookup' not in g:
         g.movie_list = []
         print(g)
@@ -102,7 +101,7 @@ def autocomplete():
             g.movie_list.append(movie.title)
 
     matches = process.extractBests(request.args['term'], g.movie_list, limit=3)
-    # print(g, matches)
+    print(g, matches)
     return jsonify([match[0] for match in matches])
 
 @app.route('/save_rating')
