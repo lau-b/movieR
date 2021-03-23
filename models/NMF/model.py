@@ -14,7 +14,7 @@ user_matrix = user_matrix.T
 print(user_matrix)
 print(datetime.now(), '## finished transposing')
 print(datetime.now(), '## initiating model')
-nmf = NMF(n_components=5, max_iter=2000)
+nmf = NMF(n_components=50, max_iter=2000)
 nmf.fit(user_matrix)
 print(datetime.now(), '## model fitted')
 

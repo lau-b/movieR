@@ -76,7 +76,7 @@ def get_recommendations():
     recommendations = pd.DataFrame(predictions, columns=movie_dict.keys())
     recommendations = recommendations.T
     recommendations.columns = ['predicted_rating']
-    recs = recommendations.sort_values(by='predicted_rating', ascending=False)[:5]
+    recs = recommendations.sort_values(by='predicted_rating', ascending=False)[:10]
     rec_movies = Movies.query.filter(Movies.id.in_(recs.index)).all()
 
     return render_template('recommendations.html', recs=rec_movies, preds=recommendations)
